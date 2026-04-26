@@ -2,7 +2,10 @@ import express from 'express'
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
 import cors from 'cors'
+
 import User from './models/user.js'
+import Transaction from './models/transaction.js'
+import authMiddleware from './middleware/authMiddleware.js'
 
 
 
@@ -16,7 +19,7 @@ const port = 3000
 
 app.use(
   cors({
-    origin:'http://localhost:5173',
+    origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
@@ -90,7 +93,35 @@ app.post('/api/auth/login', async (req, res) => {
       message: 'Login successful',
       token
     })
-    
+
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
+
+app.post('/api/transactions', authMiddleware, async (req, res) => {
+  try {
+    const { amount, type, category, date } = req.body
+
+    if (amount == null || !type || !category) {
+      return res.status(400).json({
+        message: 'amount, type and category are required'
+      })
+    }
+
+    const transaction = await Transaction.create({
+      userId: req.userId,
+      amount,
+      type,
+      category,
+      date
+    })
+
+    return res.status(201).json({
+      message: 'Transaction added successfully',
+      transaction
+    })
+
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
