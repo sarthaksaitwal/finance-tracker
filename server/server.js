@@ -90,6 +90,7 @@ app.post('/api/auth/login', async (req, res) => {
       message: 'Login successful',
       token
     })
+    
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
