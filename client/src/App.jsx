@@ -1,27 +1,37 @@
-import { useState } from "react";
-import Login from './Pages/Login';
-import Register from './Pages/Register';
-import Dashboard from './Pages/Dashboard';
+import { useState } from 'react'
+import Login from './Pages/Login'
+import Register from './Pages/Register'
+import Dashboard from './Pages/Dashboard'
 
-export default function App(){
-    const [activePage, setActivePage] = useState('login')
+export default function App() {
+  const [activePage, setActivePage] = useState(() => {
+    const token = localStorage.getItem('token')
+    return token ? 'dashboard' : 'login'
+  })
 
-    return(
-        <div className="app-shell">
-            <h1>Finance Tracker</h1>
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    setActivePage('login')
+  }
 
-            <nav className="nav-buttons">
-                <button onClick={() => setActivePage('login')}>Login</button>
-                <button onClick={() => setActivePage('register')}>Register</button>
-                <button onClick={() => setActivePage('dashboard')}>Dashboard</button>
-            </nav>
+  return (
+    <div className='app-shell'>
+      <h1>Finance Tracker</h1>
 
-            <main className="page-card">
-                {activePage === 'login' && <Login></Login>}
-                {activePage === 'register' && <Register></Register>}
-                {activePage === 'dashboard' && <Dashboard></Dashboard>}
-            </main>
+      <nav className='nav-buttons'>
+        <button onClick={() => setActivePage('login')}>Login</button>
+        <button onClick={() => setActivePage('register')}>Register</button>
+        <button onClick={() => setActivePage('dashboard')}>Dashboard</button>
+        <button onClick={handleLogout}>Logout</button>
+      </nav>
 
-        </div>
-    );
-};
+      <main className='page-card'>
+        {activePage === 'login' && (
+          <Login onLoginSuccess={() => setActivePage('dashboard')} />
+        )}
+        {activePage === 'register' && <Register />}
+        {activePage === 'dashboard' && <Dashboard />}
+      </main>
+    </div>
+  )
+}
