@@ -127,6 +127,46 @@ app.post('/api/transactions', authMiddleware, async (req, res) => {
   }
 })
 
+app.get('/api/transactions', authMiddleware, async (req, res) => {
+  try {
+    const transactions = await Transaction.find({ userId: req.userId })
+      .sort({ date: -1 })
+
+    return res.status(200).json({
+      message: 'Transactions fetched successfully',
+      transactions
+    })
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
+
+app.delete('/api/transactions/:id', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid transaction id' })
+    }
+
+    const deletedTransaction = await Transaction.findOneAndDelete({
+      _id: id,
+      userId: req.userId
+    })
+
+    if (!deletedTransaction) {
+      return res.status(404).json({ message: 'Transaction not found' })
+    }
+
+    return res.status(200).json({
+      message: 'Transaction deleted successfully',
+      transaction: deletedTransaction
+    })
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+})
+
 app.listen(port, () => {
   console.log('Server listening at http://localhost:' + port)
 })
