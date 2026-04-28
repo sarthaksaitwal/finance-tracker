@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import Icon from '../ui/Icon'
 import Button from '../ui/Button'
 
-export default function Navbar({ dark, onToggleDark }) {
+export default function Navbar({ dark, onToggleDark, userEmail, onLogout }) {
   return (
     <motion.header
       initial={{ y: -16, opacity: 0 }}
@@ -20,7 +20,7 @@ export default function Navbar({ dark, onToggleDark }) {
       {/* Left: Welcome text */}
       <div>
         <h1 className="font-bold text-white" style={{ fontSize: 18, letterSpacing: '-0.3px', lineHeight: 1.2 }}>
-          Welcome back, Alex
+          Welcome back, {userEmail || 'Alex'}
         </h1>
         <p className="text-slate-400" style={{ fontSize: 12.5, marginTop: 1 }}>
           Here's your financial overview
@@ -60,6 +60,17 @@ export default function Navbar({ dark, onToggleDark }) {
           />
         </Button>
 
+        {/* Logout */}
+        <Button
+          variant="ghost"
+          title="Logout"
+          aria-label="Logout"
+          onClick={() => onLogout && onLogout()}
+          className="px-3 py-1.5 text-sm"
+        >
+          Logout
+        </Button>
+
         {/* Divider */}
         <div
           className="mx-1"
@@ -86,9 +97,9 @@ export default function Navbar({ dark, onToggleDark }) {
               flexShrink: 0,
             }}
           >
-            A
+            {userEmail ? userEmail.charAt(0).toUpperCase() : 'A'}
           </div>
-          <span className="text-sm font-semibold text-slate-200">Alex</span>
+          <span className="text-sm font-semibold text-slate-200">{userEmail || 'Alex'}</span>
           <Icon name="chevronDown" size={13} color="#64748b" />
         </motion.button>
       </div>
