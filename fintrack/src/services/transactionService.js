@@ -22,7 +22,13 @@ export const fetchTransactions = async () => {
       id: t._id || t.id,
       title: t.title || t.category || 'Transaction',
       category: t.category || 'General',
+      // human-friendly date for display
       date: new Date(t.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      // raw ISO date for charting/aggregation
+      rawDate: t.date,
+      // new schema fields
+      description: t.description || '',
+      paymentMethod: t.paymentMethod || 'cash',
       amount: signedAmount,
       icon: isIncome ? '💰' : '🛍️',
       iconBg: isIncome ? '#00d68f22' : '#ff4d6a22',
@@ -47,7 +53,8 @@ export const fetchChartData = async () => {
   if (!txs.length) return []
   const map = {}
   txs.forEach(tx => {
-    const d = new Date(tx.date)
+    // use rawDate for reliable parsing
+    const d = new Date(tx.rawDate || tx.date)
     const key = `${d.getFullYear()}-${d.getMonth()}`
     if (!map[key]) map[key] = { month: d.toLocaleString('en-US', { month: 'short' }), income: 0, expense: 0 }
     if (tx.amount > 0) map[key].income += tx.amount

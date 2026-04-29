@@ -146,26 +146,41 @@ app.post('/api/auth/login', async (req, res) => {
 
 app.post('/api/transactions', authMiddleware, async (req, res) => {
   try {
-    const { amount, type, category, date } = req.body
+    const { amount, type, category, date, description, paymentMethod } = req.body
 
-    if (amount == null || !type || !category) {
-      return res.status(400).json({
-        message: 'amount, type and category are required'
-      })
+    // Basic validation aligned with schema
+    const allowedTypes = ['income', 'expense']
+    const allowedPayments = ['cash', 'card', 'upi', 'bank']
+
+    if (amount == null || isNaN(Number(amount)) || Number(amount) < 0) {
+      return res.status(400).json({ message: 'amount must be a non-negative number' })
     }
+    if (!type || !allowedTypes.includes(type)) {
+      return res.status(400).json({ message: `type is required and must be one of: ${allowedTypes.join(', ')}` })
+    }
+    if (!category || !String(category).trim()) {
+      return res.status(400).json({ message: 'category is required' })
+    }
+    // if (description && String(description).length > 200) {
+    //   return res.status(400).json({ message: 'description must be 200 characters or less' })
+    // }
+    if (paymentMethod && !allowedPayments.includes(paymentMethod)) {
+      return res.status(400).json({ message: `paymentMethod must be one of: ${allowedPayments.join(', ')}` })
+    }
+
+    const txDate = date ? new Date(date) : undefined
 
     const transaction = await Transaction.create({
       userId: req.userId,
-      amount,
+      amount: Number(amount),
       type,
-      category,
-      date
+      category: String(category).trim(),
+      description: description ? String(description).trim() : undefined,
+      paymentMethod: paymentMethod || undefined,
+      date: txDate || undefined,
     })
 
-    return res.status(201).json({
-      message: 'Transaction added successfully',
-      transaction
-    })
+    return res.status(201).json({ message: 'Transaction added successfully', transaction })
 
   } catch (error) {
     return res.status(500).json({ message: error.message })

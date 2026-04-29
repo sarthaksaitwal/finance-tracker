@@ -31,16 +31,23 @@ export default function TransactionItem({ tx, index = 0, showDivider = true }) {
         {/* Title + meta */}
         <div className="flex-1 min-w-0">
           <p
-            className="font-semibold text-slate-100 truncate"
-            style={{ fontSize: 13.5 }}
-          >
-            {tx.title}
-          </p>
-          <p className="text-slate-500 mt-0.5" style={{ fontSize: 12 }}>
-            {tx.category}
-            <span className="mx-1.5 text-slate-600">•</span>
-            {tx.date}
-          </p>
+              className="font-semibold text-slate-100 truncate"
+              style={{ fontSize: 13.5 }}
+            >
+              {tx.title}
+            </p>
+            {tx.description ? (
+              <p className="text-slate-400 mt-1 truncate" style={{ fontSize: 12 }}>
+                {tx.description}
+              </p>
+            ) : null}
+            <p className="text-slate-500 mt-0.5" style={{ fontSize: 12 }}>
+              {tx.category}
+              <span className="mx-1.5 text-slate-600">•</span>
+              {tx.date}
+              <span className="mx-1.5 text-slate-600">•</span>
+              {tx.paymentMethod ? tx.paymentMethod.charAt(0).toUpperCase() + tx.paymentMethod.slice(1) : 'Cash'}
+            </p>
         </div>
 
         {/* Amount */}

@@ -18,7 +18,8 @@ export default function TransactionsPage() {
       (filter === 'Expense' && tx.amount < 0)
     const matchSearch =
       tx.title.toLowerCase().includes(search.toLowerCase()) ||
-      tx.category.toLowerCase().includes(search.toLowerCase())
+      tx.category.toLowerCase().includes(search.toLowerCase()) ||
+      (tx.description || '').toLowerCase().includes(search.toLowerCase())
     return matchFilter && matchSearch
   })
 
