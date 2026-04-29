@@ -62,13 +62,13 @@ export default function Navbar({ dark, onToggleDark, userEmail, onLogout }) {
 
         {/* Logout */}
         <Button
-          variant="ghost"
+          variant="icon"
           title="Logout"
           aria-label="Logout"
           onClick={() => onLogout && onLogout()}
-          className="px-3 py-1.5 text-sm"
+          className="w-9 h-9"
         >
-          Logout
+          <Icon name="logout" size={15} color="#94a3b8" />
         </Button>
 
         {/* Divider */}
