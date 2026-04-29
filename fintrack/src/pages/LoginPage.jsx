@@ -216,6 +216,16 @@ function LoginPage({ onNavigate, onAuthSuccess }) {
           <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
         </div>
 
+        {/* Username */}
+        {/* <InputField
+          label="Username"
+          placeholder="Alex Johnson"
+          value={name}
+          onChange={e => { setName(e.target.value); setErrors(p => ({ ...p, name: '' })) }}
+          icon="user"
+          error={errors.name}
+        /> */}
+
         {/* Email */}
         <InputField
           label="Email address"
@@ -377,7 +387,7 @@ function RegisterPage({ onNavigate, onAuthSuccess }) {
     setLoading(true)
     setErrors(p => ({ ...p, general: '' }))
     try {
-      await authService.register(email, password)
+      await authService.register(name, email, password)
       // Auto-login after register
       const loginRes = await authService.login(email, password)
       const token = loginRes?.token
@@ -450,9 +460,9 @@ function RegisterPage({ onNavigate, onAuthSuccess }) {
           <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
         </div>
 
-        {/* Full name */}
+        {/* Username */}
         <InputField
-          label="Full name"
+          label="Username"
           placeholder="Alex Johnson"
           value={name}
           onChange={e => { setName(e.target.value); setErrors(p => ({ ...p, name: '' })) }}
