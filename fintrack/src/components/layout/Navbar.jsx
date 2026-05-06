@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import Icon from '../ui/Icon'
 import Button from '../ui/Button'
 
-export default function Navbar({ dark, onToggleDark, userEmail, onLogout }) {
+export default function Navbar({ dark, onToggleDark, userName, onLogout }) {
   return (
     <motion.header
       initial={{ y: -16, opacity: 0 }}
@@ -20,7 +20,7 @@ export default function Navbar({ dark, onToggleDark, userEmail, onLogout }) {
       {/* Left: Welcome text */}
       <div>
         <h1 className="font-bold text-white" style={{ fontSize: 18, letterSpacing: '-0.3px', lineHeight: 1.2 }}>
-          Welcome back, {userEmail || 'Alex'}
+          Welcome back, {userName || 'Alex'}
         </h1>
         <p className="text-slate-400" style={{ fontSize: 12.5, marginTop: 1 }}>
           Here's your financial overview
@@ -97,9 +97,9 @@ export default function Navbar({ dark, onToggleDark, userEmail, onLogout }) {
               flexShrink: 0,
             }}
           >
-            {userEmail ? userEmail.charAt(0).toUpperCase() : 'A'}
+            {userName ? userName.charAt(0).toUpperCase() : 'A'}
           </div>
-          <span className="text-sm font-semibold text-slate-200">{userEmail || 'Alex'}</span>
+          <span className="text-sm font-semibold text-slate-200">{userName || 'Alex'}</span>
           <Icon name="chevronDown" size={13} color="#64748b" />
         </motion.button>
       </div>

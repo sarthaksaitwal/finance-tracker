@@ -10,7 +10,7 @@ export default function LayoutWrapper({ activePage, onNavigate, dark, onToggleDa
       {/* Main panel */}
       <div className="flex flex-col flex-1 min-w-0">
         {/* Top navbar */}
-        <Navbar dark={dark} onToggleDark={onToggleDark} userEmail={user?.email} onLogout={onLogout} />
+        <Navbar dark={dark} onToggleDark={onToggleDark} userName={user?.username} onLogout={onLogout} />
 
         {/* Scrollable page content */}
         <main
