@@ -90,15 +90,24 @@ export const fetchExpenseBreakdown = async () => {
 
 // Formatters
 export const formatCurrency = (value, compact = false) => {
-  if (compact && Math.abs(value) >= 1000) {
-    return `$${(value / 1000).toFixed(1)}k`
+  const num = Number(value) || 0
+  // Compact formatting for large values (e.g. 1K, 1M)
+  if (compact && Math.abs(num) >= 1000) {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      notation: 'compact',
+      maximumFractionDigits: 1,
+    }).format(num)
   }
-  return new Intl.NumberFormat('en-US', {
+
+  // Standard INR formatting (no fractional digits)
+  return new Intl.NumberFormat('en-IN', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'INR',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(value)
+  }).format(num)
 }
 
 export const formatChange = (value) => {

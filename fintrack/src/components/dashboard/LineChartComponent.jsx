@@ -2,6 +2,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend,
 } from 'recharts'
+import { formatCurrency } from '../../services/transactionService'
 
 // ─── Custom Tooltip ────────────────────────────────────────────────────────────
 
@@ -18,7 +19,7 @@ function CustomTooltip({ active, payload, label }) {
       }}
     >
       <p className="text-slate-400 text-xs mb-2 font-medium">{label}</p>
-      {payload.map((entry) => (
+          {payload.map((entry) => (
         <div key={entry.dataKey} className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-1.5">
             <span
@@ -31,7 +32,7 @@ function CustomTooltip({ active, payload, label }) {
             className="text-xs font-bold font-mono"
             style={{ color: entry.color }}
           >
-            ${entry.value.toLocaleString()}
+            {formatCurrency(entry.value)}
           </span>
         </div>
       ))}
@@ -98,7 +99,7 @@ export default function LineChartComponent({ data }) {
           tick={{ fill: '#475569', fontSize: 11, fontFamily: 'Plus Jakarta Sans' }}
           axisLine={false}
           tickLine={false}
-          tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+          tickFormatter={(v) => formatCurrency(v, true)}
           dx={-4}
         />
 

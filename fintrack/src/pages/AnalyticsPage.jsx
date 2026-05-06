@@ -3,9 +3,10 @@ import ChartCard from '../components/dashboard/ChartCard'
 import LineChartComponent from '../components/dashboard/LineChartComponent'
 import PieChartComponent from '../components/dashboard/PieChartComponent'
 import { useSummary } from '../hooks/useSummary'
+import { formatCurrency } from '../services/transactionService'
 
 export default function AnalyticsPage() {
-  const { chartData, breakdown, loading } = useSummary()
+  const { summary, chartData, breakdown, loading } = useSummary()
 
   return (
     <motion.div
@@ -41,9 +42,9 @@ export default function AnalyticsPage() {
       {/* Insight cards */}
       <div className="grid grid-cols-3 gap-4 mt-4">
         {[
-          { label: 'Avg Monthly Income',  value: '$5,300', color: '#00d68f' },
-          { label: 'Avg Monthly Expense', value: '$3,100', color: '#ff4d6a' },
-          { label: 'Avg Monthly Savings', value: '$2,200', color: '#4d9fff' },
+          { label: 'Avg Monthly Income',  value: !loading && summary ? formatCurrency(summary.income.value) : '—', color: '#00d68f' },
+          { label: 'Avg Monthly Expense', value: !loading && summary ? formatCurrency(summary.expense.value) : '—', color: '#ff4d6a' },
+          { label: 'Avg Monthly Savings', value: !loading && summary ? formatCurrency(summary.balance.value) : '—', color: '#4d9fff' },
         ].map((item, i) => (
           <motion.div
             key={i}

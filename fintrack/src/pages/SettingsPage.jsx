@@ -37,7 +37,7 @@ function ToggleRow({ label, description, value, onChange }) {
 export default function SettingsPage({ dark, onToggleDark }) {
   const [notifs, setNotifs]   = useState(true)
   const [alerts, setAlerts]   = useState(false)
-  const [currency, setCurrency] = useState('USD')
+  const [currency, setCurrency] = useState('INR')
 
   return (
     <motion.div
@@ -79,7 +79,7 @@ export default function SettingsPage({ dark, onToggleDark }) {
       </section>
 
       {/* Currency */}
-      <section
+      {/* <section
         className="rounded-2xl p-5"
         style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)' }}
       >
@@ -96,7 +96,7 @@ export default function SettingsPage({ dark, onToggleDark }) {
           <option value="GBP">GBP — British Pound</option>
           <option value="INR">INR — Indian Rupee</option>
         </select>
-      </section>
+      </section> */}
     </motion.div>
   )
 }
