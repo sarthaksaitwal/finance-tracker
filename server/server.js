@@ -146,6 +146,7 @@ app.post('/api/auth/login', async (req, res) => {
 
 app.post('/api/transactions', authMiddleware, async (req, res) => {
   try {
+    console.log(req.body)
     const { amount, type, category, date, description, paymentMethod } = req.body
 
     // Basic validation aligned with schema
